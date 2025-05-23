@@ -31,15 +31,20 @@
         }
         @keyframes explotar {
             0% { transform: scale(1); opacity: 1; }
-            100% { transform: scale(4); opacity: 0; }
+            100% { transform: scale(3); opacity: 0; }
         }
     </style>
 </head>
 <body>
 
     <script>
+        let maxMensajes = 150; // Máximo de mensajes simultáneos en pantalla
+        let mensajesActivos = []; // Array para gestionar elementos activos
+
         function crearMensajes() {
-            let columnas = 18; // Más columnas juntas
+            if (mensajesActivos.length >= maxMensajes) return; // Si hay demasiados, no agrega más
+
+            let columnas = 15; // Reducí un poco la cantidad para mejorar rendimiento
             let espacio = window.innerWidth / columnas;
 
             for (let i = 0; i < columnas; i++) {
@@ -48,22 +53,23 @@
                 mensaje.innerHTML = "Te Amo Nuria";
 
                 mensaje.style.left = (i * espacio) + "px";
-                
-                let alturaAleatoria = Math.random() * -300 + "px";
+                let alturaAleatoria = Math.random() * -200 + "px";
                 mensaje.style.setProperty('--inicio', alturaAleatoria);
 
                 document.body.appendChild(mensaje);
+                mensajesActivos.push(mensaje); // Agregar a la lista de elementos activos
 
                 setTimeout(() => {
                     mensaje.remove();
+                    mensajesActivos.shift(); // Eliminar de la lista cuando desaparece
                 }, 1500);
             }
         }
 
-        setInterval(crearMensajes, 100); // Más rapidez y más frases apareciendo juntas
+        setInterval(crearMensajes, 200); // Menos frecuencia de aparición para evitar sobrecarga
 
         document.body.addEventListener("touchstart", (event) => {
-            for (let i = 0; i < 30; i++) { // Explosión más fuerte en celular
+            for (let i = 0; i < 15; i++) { // Menos elementos en la explosión para optimizar rendimiento
                 let explotarMensaje = document.createElement("div");
                 explotarMensaje.className = "contenedor";
                 explotarMensaje.innerHTML = "Te Amo";
@@ -71,8 +77,8 @@
                 let touchX = event.touches[0].clientX;
                 let touchY = event.touches[0].clientY;
 
-                explotarMensaje.style.left = touchX + Math.random() * 80 - 40 + "px";
-                explotarMensaje.style.top = touchY + Math.random() * 80 - 40 + "px";
+                explotarMensaje.style.left = touchX + Math.random() * 50 - 25 + "px";
+                explotarMensaje.style.top = touchY + Math.random() * 50 - 25 + "px";
                 explotarMensaje.style.animation = "explotar 1s ease-out forwards";
 
                 document.body.appendChild(explotarMensaje);
