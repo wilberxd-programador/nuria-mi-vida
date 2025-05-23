@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Te Amo Nuria</title>
+    <style>
+        body {
+            background-color: black;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+        .contenedor {
+            position: absolute;
+            font-size: 1rem;
+            font-weight: bolder; /* Texto más grueso */
+            color: #ff002b; /* Rojo vibrante */
+            opacity: 1;
+            animation: bajar 1.5s linear infinite, desaparecer 1.5s linear infinite;
+        }
+        @keyframes bajar {
+            0% { transform: translateY(var(--inicio)); }
+            100% { transform: translateY(100vh); }
+        }
+        @keyframes desaparecer {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        @keyframes explotar {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(4); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <script>
+        function crearMensajes() {
+            let columnas = 18; // Más columnas juntas
+            let espacio = window.innerWidth / columnas;
+
+            for (let i = 0; i < columnas; i++) {
+                let mensaje = document.createElement("div");
+                mensaje.className = "contenedor";
+                mensaje.innerHTML = "Te Amo Nuria";
+
+                mensaje.style.left = (i * espacio) + "px";
+                
+                let alturaAleatoria = Math.random() * -300 + "px";
+                mensaje.style.setProperty('--inicio', alturaAleatoria);
+
+                document.body.appendChild(mensaje);
+
+                setTimeout(() => {
+                    mensaje.remove();
+                }, 1500);
+            }
+        }
+
+        setInterval(crearMensajes, 100); // Más rapidez y más frases apareciendo juntas
+
+        document.body.addEventListener("touchstart", (event) => {
+            for (let i = 0; i < 30; i++) { // Explosión más fuerte en celular
+                let explotarMensaje = document.createElement("div");
+                explotarMensaje.className = "contenedor";
+                explotarMensaje.innerHTML = "Te Amo";
+
+                let touchX = event.touches[0].clientX;
+                let touchY = event.touches[0].clientY;
+
+                explotarMensaje.style.left = touchX + Math.random() * 80 - 40 + "px";
+                explotarMensaje.style.top = touchY + Math.random() * 80 - 40 + "px";
+                explotarMensaje.style.animation = "explotar 1s ease-out forwards";
+
+                document.body.appendChild(explotarMensaje);
+                setTimeout(() => {
+                    explotarMensaje.remove();
+                }, 1000);
+            }
+        });
+    </script>
+
+</body>
+</html>
